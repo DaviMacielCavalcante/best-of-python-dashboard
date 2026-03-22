@@ -31,10 +31,15 @@ def load() -> dict | None:
         text = response.text
         
         parsed_yaml = yaml.safe_load(text)
+        
+        parsed_yaml["projects"] = [p for p in parsed_yaml["projects"] if not p.get("resource")]
     
     except RequestException as e:
         logger.error(e)
         parsed_yaml = None
+        
+        
+
         
     
     return parsed_yaml
