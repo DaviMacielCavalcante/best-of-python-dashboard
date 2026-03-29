@@ -2,6 +2,7 @@ from concurrent.futures import ThreadPoolExecutor
 from loguru import logger
 from requests.exceptions import RequestException
 import requests
+import time
 
 def get_lib(lib: str) -> dict | None:
     
@@ -21,7 +22,7 @@ def get_lib(lib: str) -> dict | None:
         return None
     
 def get_libs(libs: list) -> list[dict | None]:
-    
+    time.sleep(0.3)
     with ThreadPoolExecutor(max_workers=3) as executor:
         results = executor.map(get_lib, libs)
             

@@ -107,10 +107,6 @@ else:
     cols[1].metric(label="Total Categories".upper(), value=len(categories_data["categories"]) - 1)
     cols[2].metric(label="Last Updated".upper(), value=get_last_update("projects"))
 
-    
-
-
-
 st.plotly_chart(bar(y="name", x=sort_column, orientation="h", data_frame=df_repos_chart.tail(20).to_pandas()))
 
 st.dataframe(df_repos_table.head(20).to_pandas(), hide_index=True)
