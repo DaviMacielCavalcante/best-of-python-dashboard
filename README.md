@@ -88,4 +88,4 @@ Creative Commons Attribution-ShareAlike 4.0 International — see [LICENCE.MD](L
 
 **Author:** Davi Cavalcante — [davicc@outlook.com.br](mailto:davicc@outlook.com.br)
 
-*"Your focus determines your reality." — Qui-Gon Jinn (also applies to picking the right library)*
+*"The dark side of the Force is a pathway to many abilities some consider to be unnatural." — Palpatine (as is knowing every Python library by heart)*
