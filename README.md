@@ -82,7 +82,7 @@ Open an issue or pull request — all feedback welcome.
 
 ## License
 
-MIT License — see [LICENCE.MD](LICENCE.MD) for details.
+Creative Commons Attribution-ShareAlike 4.0 International — see [LICENCE.MD](LICENCE.MD) for details.
 
 ---
 
