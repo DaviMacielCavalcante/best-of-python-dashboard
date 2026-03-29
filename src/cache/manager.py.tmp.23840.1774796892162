@@ -47,18 +47,7 @@ def get_or_set_value_from_cache(key: str, func: Callable):
         return value
     
 def get_last_update(key: str):
-    """Return the date the cache entry was last populated.
-
-    Parameters
-    ----------
-    key : str
-        Base cache key (without the ``_last_update`` suffix).
-
-    Returns
-    -------
-    str or None
-        Date string in ``YYYY-MM-DD`` format, or ``None`` if never cached.
-    """
+    
     cache = start_cache()
     
     return cache.get(f"{key}_last_update")

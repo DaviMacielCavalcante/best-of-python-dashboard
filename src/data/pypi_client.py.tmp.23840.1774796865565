@@ -39,21 +39,6 @@ def get_lib(lib: str) -> dict | None:
         return None
     
 def get_libs(libs: list) -> list[dict | None]:
-    """Fetch download statistics for multiple packages concurrently.
-
-    Uses a thread pool with a short initial delay to avoid overwhelming the
-    PyPI Stats API. Results preserve the order of the input list.
-
-    Parameters
-    ----------
-    libs : list
-        PyPI package names to fetch.
-
-    Returns
-    -------
-    list of dict or None
-        One entry per input package; ``None`` for any that failed.
-    """
     time.sleep(0.3)
     with ThreadPoolExecutor(max_workers=3) as executor:
         results = executor.map(get_lib, libs)
