@@ -7,7 +7,7 @@ import streamlit as st
 
 apply_styles()
 
-st.set_page_config(page_title="Home", page_icon="🐍")
+st.set_page_config(page_title="Home", page_icon="🐍", layout="wide")
 
 load_dotenv()
 st.title("Welcome to the Best-of-python Visualizer!")

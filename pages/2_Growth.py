@@ -89,6 +89,6 @@ if libs_selected:
     elif period_filter == "Last Year":
         df_libs = df_libs.filter(pl.col("date").cast(pl.Date) >= pl.lit(datetime.now() - relativedelta(months=12)))
 
-    st.plotly_chart(line(x="date", y="downloads", color="name", data_frame=df_libs.to_pandas()))
+    st.plotly_chart(line(x="date", y="downloads", color="name", data_frame=df_libs.to_pandas()), width="stretch")
 else:
     st.info("Choose some libs")
