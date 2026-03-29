@@ -3,8 +3,11 @@ from src.cache.manager import get_or_set_value_from_cache, get_last_update
 from src.data.loader import load
 from src.data.github_client import get_repos
 from src.data.pypi_client import get_libs
+from src.utils.styles import apply_styles
 import polars as pl
 import streamlit as st
+
+apply_styles()
 
 categories_data = get_or_set_value_from_cache("projects", load)
 

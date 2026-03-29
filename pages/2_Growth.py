@@ -4,8 +4,11 @@ from plotly.express import line
 from src.cache.manager import get_or_set_value_from_cache
 from src.data.loader import load
 from src.data.pypi_client import get_libs
+from src.utils.styles import apply_styles
 import polars as pl
 import streamlit as st
+
+apply_styles()
 
 st.title("Growth")
 

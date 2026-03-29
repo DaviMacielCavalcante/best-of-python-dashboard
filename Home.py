@@ -1,9 +1,13 @@
 from dotenv import load_dotenv
 from src.cache.manager import get_or_set_value_from_cache, get_last_update
+from src.utils.styles import apply_styles
 from src.data.loader import load
 import src.utils.logger
 import streamlit as st
 
+apply_styles()
+
+st.set_page_config(page_title="Home", page_icon="🐍")
 
 load_dotenv()
 st.title("Welcome to the Best-of-python Visualizer!")
