@@ -1,9 +1,14 @@
 from dotenv import load_dotenv
+from loguru import logger
+from pathlib import Path
 from src.cache.manager import get_or_set_value_from_cache, get_last_update
 from src.utils.styles import apply_styles
 from src.data.loader import load
-import src.utils.logger
 import streamlit as st
+
+logs_path = Path(__file__).parent/".temp"/"logs"
+
+logger.add(sink=logs_path/"log_{time}.log", level="DEBUG", rotation="10 MB", retention="15 days")
 
 apply_styles()
 

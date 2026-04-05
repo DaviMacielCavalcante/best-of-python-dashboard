@@ -3,19 +3,9 @@ from pathlib import Path
 from typing import Callable
 from datetime import datetime
 
-def start_cache():
-    """Initialise and return the disk cache stored in ``.temp/cache``.
+cache_path = Path(__file__).parent.parent.parent/".temp"/"cache"
 
-    Returns
-    -------
-    diskcache.Cache
-        Open cache instance pointing to the project-local cache directory.
-    """
-    cache_path = Path(__file__).parent.parent.parent/".temp"/"cache"
-
-    cache = Cache(cache_path)
-    
-    return cache
+cache = Cache(cache_path)
 
 def get_or_set_value_from_cache(key: str, func: Callable):
     """Return a cached value, or compute and cache it if not present.
@@ -35,7 +25,6 @@ def get_or_set_value_from_cache(key: str, func: Callable):
     Any
         The cached or freshly computed value.
     """
-    cache = start_cache()
     
     _MISSING = object() 
     
@@ -62,6 +51,5 @@ def get_last_update(key: str):
     str or None
         Date string in ``YYYY-MM-DD`` format, or ``None`` if never cached.
     """
-    cache = start_cache()
-    
+        
     return cache.get(f"{key}_last_update")

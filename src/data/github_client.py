@@ -49,9 +49,18 @@ def get_repo(github_id: str) -> dict | None:
         
         return stats_json
         
-    except RequestException as e:
-        logger.error(e)
-        return None
+    except (RequestException) as e:
+        
+        if e.response is not None:
+            if e.response.status_code == 429:
+                logger.error(f"Github rate limit exceeded for {github_id}")
+                return None
+            else:
+                logger.error(e.response.text)
+                return None
+        else:
+            logger.error(e)
+            return None
     
 def get_repos(github_ids: list) -> list[dict | None]:
     """Fetch repository metadata for multiple repos concurrently.
