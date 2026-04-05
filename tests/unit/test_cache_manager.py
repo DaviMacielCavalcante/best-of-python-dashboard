@@ -3,13 +3,18 @@ from unittest.mock import MagicMock, patch
 from src.cache.manager import get_or_set_value_from_cache, get_last_update
 
 
+def _cache_miss(key, default=None):
+    """Side-effect helper that simulates a diskcache miss by returning the default."""
+    return default
+
+
 class TestGetOrSetValueFromCache:
     """Tests for the get_or_set_value_from_cache() function."""
 
     def test_calls_func_and_returns_value_on_cache_miss(self):
         """On a cache miss, should call func() and return its result."""
         mock_cache = MagicMock()
-        mock_cache.get.return_value = None
+        mock_cache.get.side_effect = _cache_miss
         func = MagicMock(return_value={"projects": []})
 
         with patch("src.cache.manager.start_cache", return_value=mock_cache):
@@ -34,7 +39,7 @@ class TestGetOrSetValueFromCache:
     def test_stores_value_with_24h_ttl_on_cache_miss(self):
         """On a cache miss, should store the computed value with a 24-hour TTL."""
         mock_cache = MagicMock()
-        mock_cache.get.return_value = None
+        mock_cache.get.side_effect = _cache_miss
         value = {"projects": []}
         func = MagicMock(return_value=value)
 
@@ -46,7 +51,7 @@ class TestGetOrSetValueFromCache:
     def test_stores_last_update_timestamp_on_cache_miss(self):
         """On a cache miss, should store a YYYY-MM-DD timestamp under '{key}_last_update'."""
         mock_cache = MagicMock()
-        mock_cache.get.return_value = None
+        mock_cache.get.side_effect = _cache_miss
         func = MagicMock(return_value={})
 
         with patch("src.cache.manager.start_cache", return_value=mock_cache):
@@ -55,12 +60,24 @@ class TestGetOrSetValueFromCache:
         calls = [str(c) for c in mock_cache.set.call_args_list]
         assert any("projects_last_update" in c for c in calls)
 
+    def test_returns_none_on_cache_hit_without_calling_func(self):
+        """On a cache hit where the stored value is None, should return None without calling func()."""
+        mock_cache = MagicMock()
+        mock_cache.get.return_value = None  # simulates a stored None (cache hit)
+        func = MagicMock()
+
+        with patch("src.cache.manager.start_cache", return_value=mock_cache):
+            result = get_or_set_value_from_cache("projects", func)
+
+        func.assert_not_called()
+        assert result is None
+
     def test_last_update_value_matches_date_format(self):
         """The stored last_update value should be a YYYY-MM-DD formatted string."""
         import re
 
         mock_cache = MagicMock()
-        mock_cache.get.return_value = None
+        mock_cache.get.side_effect = _cache_miss
         func = MagicMock(return_value={})
         captured = {}
 

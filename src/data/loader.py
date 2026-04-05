@@ -1,4 +1,5 @@
 from loguru import logger
+from yaml import YAMLError
 from requests.exceptions import RequestException
 import requests 
 import yaml
@@ -12,7 +13,8 @@ def load() -> dict | None:
     Returns
     -------
     dict or None
-        Parsed YAML content as a dictionary, or ``None`` if the request fails.
+        Parsed YAML content as a dictionary, or ``None`` if the request fails
+        or the response cannot be parsed as valid YAML.
 
     Examples
     --------
@@ -21,6 +23,8 @@ def load() -> dict | None:
     'numpy'
     """
     url = "https://raw.githubusercontent.com/lukasmasuch/best-of-python/main/projects.yaml"
+    
+    parsed_yaml = None
     
     try:
     
@@ -34,12 +38,7 @@ def load() -> dict | None:
         
         parsed_yaml["projects"] = [p for p in parsed_yaml["projects"] if not p.get("resource")]
     
-    except RequestException as e:
+    except (RequestException, YAMLError) as e:
         logger.error(e)
-        parsed_yaml = None
-        
-        
-
-        
     
     return parsed_yaml

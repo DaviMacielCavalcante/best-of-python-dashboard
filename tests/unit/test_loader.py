@@ -61,3 +61,11 @@ class TestLoad:
 
         assert len(result["categories"]) == 1
         assert result["categories"][0]["category"] == "math"
+
+    def test_returns_none_on_invalid_yaml(self, requests_mock):
+        """load() should return None when the response body is not valid YAML."""
+        requests_mock.get(PROJECTS_URL, text=": invalid: yaml: ][")
+
+        result = load()
+
+        assert result is None

@@ -37,8 +37,11 @@ def get_or_set_value_from_cache(key: str, func: Callable):
     """
     cache = start_cache()
     
-    has_key = cache.get(key)    
-    if has_key:
+    _MISSING = object() 
+    
+    has_key = cache.get(key, default=_MISSING)   
+    
+    if has_key is not _MISSING:
         return has_key
     else:
         value = func()
