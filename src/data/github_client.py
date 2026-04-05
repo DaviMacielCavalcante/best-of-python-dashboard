@@ -1,7 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from loguru import logger
 from requests.exceptions import RequestException
-
 import requests
 import os
 
@@ -33,12 +32,16 @@ def get_repo(github_id: str) -> dict | None:
         "Authorization": f"Bearer {token}"
     } if token else None
     
-    owner, repo = github_id.split("/")
+    if github_id.count("/") == 1:
+    
+        owner, repo = github_id.split("/")
+    else: 
+        return None
     
     try:
         url = f"https://api.github.com/repos/{owner}/{repo}"
         
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=15)
         
         response.raise_for_status()
         

@@ -7,6 +7,9 @@ import time
 def get_lib(lib: str) -> dict | None:
     """Fetch download statistics for a single package from PyPI Stats.
 
+    Waits 0.3 seconds before each request to avoid overwhelming the PyPI
+    Stats API when called concurrently.
+
     Parameters
     ----------
     lib : str
@@ -23,10 +26,13 @@ def get_lib(lib: str) -> dict | None:
     >>> stats["data"][0]["downloads"]
     12345678
     """
+
+    time.sleep(0.3)
+    
     try:
         url = f"https://pypistats.org/api/packages/{lib.lower()}/overall"
         
-        response = requests.get(url)
+        response = requests.get(url, timeout=15)
         
         response.raise_for_status()
         
@@ -41,8 +47,9 @@ def get_lib(lib: str) -> dict | None:
 def get_libs(libs: list) -> list[dict | None]:
     """Fetch download statistics for multiple packages concurrently.
 
-    Uses a thread pool with a short initial delay to avoid overwhelming the
-    PyPI Stats API. Results preserve the order of the input list.
+    Uses a thread pool of 3 workers. Each worker sleeps 0.3 seconds before
+    requesting, spacing out calls to the PyPI Stats API. Results preserve
+    the order of the input list.
 
     Parameters
     ----------
@@ -54,7 +61,7 @@ def get_libs(libs: list) -> list[dict | None]:
     list of dict or None
         One entry per input package; ``None`` for any that failed.
     """
-    time.sleep(0.3)
+    
     with ThreadPoolExecutor(max_workers=3) as executor:
         results = executor.map(get_lib, libs)
             

@@ -78,6 +78,18 @@ class TestGetRepo:
 
         assert adapter.called
 
+    def test_returns_none_when_github_id_has_no_slash(self):
+        """get_repo() should return None when the github_id contains no slash."""
+        result = get_repo("numpy")
+
+        assert result is None
+
+    def test_returns_none_when_github_id_has_multiple_slashes(self):
+        """get_repo() should return None when the github_id contains more than one slash."""
+        result = get_repo("a/b/c")
+
+        assert result is None
+
 
 class TestGetRepos:
     """Tests for the get_repos() function."""
