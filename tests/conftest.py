@@ -1,19 +1,6 @@
 import pytest
 
 
-@pytest.fixture
-def sample_projects_yaml():
-    return {
-        "projects": [
-            {"name": "numpy", "github_id": "numpy/numpy", "pypi_id": "numpy", "category": "math"},
-            {"name": "pandas", "github_id": "pandas-dev/pandas", "pypi_id": "pandas", "category": "data"},
-        ],
-        "categories": [
-            {"category": "math", "title": "Math & Statistics"},
-            {"category": "data", "title": "Data Analysis"},
-        ],
-    }
-
 
 @pytest.fixture
 def sample_projects_yaml_with_resource():

@@ -1,6 +1,8 @@
 import streamlit as st
 
 def apply_styles():
+    # NOTE: These selectors use Streamlit's internal data-testid attributes,
+    # which are not part of the public API and may break on Streamlit upgrades.
     st.markdown("""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
